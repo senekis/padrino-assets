@@ -43,7 +43,7 @@ module Padrino
         options.reverse_merge!(media: 'screen', rel: 'stylesheet', type: 'text/css')
         sources.collect do |source|
           tag(:link, options.reverse_merge(href: asset_path(source, :css)))
-        end.join("\n")
+        end.join("\n").html_safe
       end
       alias_method :stylesheets,         :stylesheet
       alias_method :include_stylesheet,  :stylesheet
@@ -84,7 +84,7 @@ module Padrino
         options.reverse_merge!(type: 'text/javascript')
         sources.collect do |source|
           content_tag(:script, nil, options.reverse_merge(src: asset_path(source, :js)))
-        end.join("\n")
+        end.join("\n").html_safe
       end
       alias_method :javascripts,            :javascript
       alias_method :include_javascript,     :javascript
@@ -161,7 +161,7 @@ module Padrino
         sources.collect do |source|
           alternate_text = options.fetch(:alt, alternate_text(source))
           tag(:img, options.reverse_merge(src: asset_path(source), alt: alternate_text))
-        end.join("\n")
+        end.join("\n").html_safe
       end
       alias_method :images,    :image
       alias_method :image_tag, :image
@@ -274,7 +274,7 @@ module Padrino
 
         if sources.is_a?(Array)
           content_tag(:video, options) do
-            sources.collect { |source| tag(:source, src: asset_path(source)) }.join("\n")
+            sources.collect { |source| tag(:source, src: asset_path(source)) }.join("\n").html_safe
           end
         else
           tag(:video, options.reverse_merge(src: asset_path(sources)))
